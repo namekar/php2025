@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 2em;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .welcome-message {
+            font-size: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 1em;
+            justify-content: space-around;
+            margin: 1em 0;
+        }
+
+        .quick-link {
+            background-color: #ffffff;
+            padding: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            width: 120px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+
+        .quick-link:hover {
+            background-color: #e8f5e9;
+        }
+
+        .content-section {
+            background-color: white;
+            padding: 1.5em;
+            border-radius: 5px;
+            margin-top: 1.5em;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1em;
+            background-color: #333;
+            color: white;
+            margin-top: 2em;
+        }
+
+        footer a {
+            color: #90caf9;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome Back, [Username]!</h1>
+</header>
+
+<div class="container">
+    <div class="welcome-message">
+        Here’s what you can do today.
+    </div>
+
+    <div class="quick-links">
+        <a href="#" class="quick-link">Profile</a>
+        <a href="#" class="quick-link">Dashboard</a>
+        <a href="#" class="quick-link">Settings</a>
+        <a href="#" class="quick-link">Sign Out</a>
+    </div>
+
+    <div class="content-section">
+        <h2>Recent Activity</h2>
+        <p>Here you’ll see your latest updates and any new notifications.</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Suggested Actions</h2>
+        <p>Based on your recent activity, here are some suggestions for you.</p>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 YourCompany | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+</footer>
+
+</body>
+</html>
