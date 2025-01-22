@@ -3,6 +3,7 @@ namespace App\date;
     class Month {
         private $months =['january','february','march','april','may','june','july','august','september','october','november','december'];
         private $month;
+        public $days =['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
         private $year;
         /**
          * Summary of __construct
@@ -25,18 +26,23 @@ namespace App\date;
             }
             $this->month = $month;
             $this->year = $year;
-
+        }
+        public function getFirstDay():\DateTime{
+            return new \DateTime("{$this->year}-{$this->month}-01");
         }
         public function toString():string{
             return $this->months[$this->month -1] . ' '. $this->year;
         }
         public function getWeeks():int{
-            $start = new \DateTime("{$this->year}-{$this->month}-01");
+            $start = $this->getFirstDay();
             $end = (clone $start)->modify('+1 month -1 day');
-            var_dump($start,$end);
+            $weeks= intval($end->format('W')) - intval($start->format('W'))+1;
+            if ($weeks <0){
+                $weeks = intval($end->format('W'));
+            }
+            return $weeks;
         }
     }
-
 
 
 
