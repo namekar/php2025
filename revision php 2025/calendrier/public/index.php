@@ -15,28 +15,32 @@
     require '../src/date/month.php';
     try {
     $month = new App\date\Month($_GET['month'] ?? null, $_GET['year'] ?? null); 
-    $day = $month->getFirstDay()->modify('last monday');
+    $start = $month->getFirstDay()->modify('last monday');
     }catch(Exception $e){
         $month = new App\date\Month();
     }
     ?>
+    <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
     <h1><?php echo $month->toString();?></h1>
+    <div>
+        <a href="./index.php?month=<?= $month->previousMonth()->month;?>&year=<?= $month->previousMonth()->year;?>" class="btn btn-primary">&lt;</a>
+        <a href="./index.php?month=<?= $month->nextMonth()->month;?>&year=<?= $month->nextMonth()->year;?>" class="btn btn-primary">&gt;</a>
+    </div>
+    </div>
     
-    <table class="calendar__table" calendar__table--<?=  $month->getWeeks();?>>
+    <table class="calendar__table calendar__table--<?=  $month->getWeeks();?>">
         <?php for ($i = 0; $i < $month->getWeeks(); $i++): ?>
         <tr>
-            <?php foreach($month->days as $day): ?>
-            <td>monday<br>
-                <div class="calendar__weekday"><?= $day;?></div>
-                <div class="calendar__day"><?= $start->format('d');?></div>
+            <?php foreach($month->days as $k => $day): 
+                 $date = (clone $start)->modify("+" . ($k + $i * 7) . "days");
+                ?>
+            <td class="<? $month->withinMonth($date) ? '' :''; ?>">
+                <?php if ($i === 0):?>
+                <div class="calendar__weekday"><?= $day; ?></div>
+                <?php endif; ?>
+                <div class="calendar__day"><?= $date->format('d'); ?></div>
             </td>
             <?php endforeach; ?>
-            <td>tuesday</td>
-            <td>wednesday</td>
-            <td>thursday</td>
-            <td>friday</td>
-            <td>saturday</td>
-            <td>sunday</td>
         </tr>
         <?php  endfor; ?>
 

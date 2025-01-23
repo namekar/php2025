@@ -8,7 +8,21 @@
     border: 1px solid #ccc;
     vertical-align: top;
     width: 14.29%;
+    height: 20%;
 }
 .calendar__table.calendar__table--6 td{
-    width: 16.67%;
+    height: 16.67%;
+}
+.calendar__weekday {
+    font-weight: bold;
+    color:#ccc;
+    font-size: 1.2em;
+}
+.calendar__day{
+    font-size: 1.3em;
+}
+.calendar__othermonth .calendar__day{
+    opacity: 0.3;
+
+
 }

@@ -1,10 +1,10 @@
 <?php
 namespace App\date;
     class Month {
-        private $months =['january','february','march','april','may','june','july','august','september','october','november','december'];
-        private $month;
+        public $months =['january','february','march','april','may','june','july','august','september','october','november','december'];
+        public $month;
         public $days =['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
-        private $year;
+        public $year;
         /**
          * Summary of __construct
          * @param int $month
@@ -41,6 +41,30 @@ namespace App\date;
                 $weeks = intval($end->format('W'));
             }
             return $weeks;
+        }
+        public function withinMonth(\DateTime $date):bool{
+            return $this->getFirstDay()->format('y-m') === $date->format('y-m');
+        }
+        public function nextMonth(): Month
+        {
+            $month = $this->month + 1;
+            $year = $this->year;
+            if ($month >12){
+                $month = 1;
+                $year += 1;
+                
+            }
+            return new Month($month,$year);
+        }
+        public function previousMonth(): Month{
+            $month = $this->month - 1;
+            $year = $this->year;
+            if ($month < 1){
+                $month = 12;
+                $year -= 1;
+                
+            }
+            return new Month($month,$year);
         }
     }
 
