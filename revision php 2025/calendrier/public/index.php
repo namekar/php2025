@@ -13,12 +13,19 @@
     </nav>
     <?php
     require '../src/date/month.php';
+    require '../src/date/Events.php';
+    $events = new App\date\Events();
     try {
     $month = new App\date\Month($_GET['month'] ?? null, $_GET['year'] ?? null); 
-    $start = $month->getFirstDay()->modify('last monday');
+    $start = $month->getFirstDay();
+    $start = $start->format('N') === '1' ? $start : $month->getFirstDay()->modify('last monday');
     }catch(Exception $e){
         $month = new App\date\Month();
     }
+    $weeks= $month->getWeeks();
+    $end = (clone $start)->modify('+' . (6+7*($weeks-1)) . 'days');
+
+    $events = $events->getEventsBetween($start,$end);
     ?>
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
     <h1><?php echo $month->toString();?></h1>
@@ -28,8 +35,8 @@
     </div>
     </div>
     
-    <table class="calendar__table calendar__table--<?=  $month->getWeeks();?>">
-        <?php for ($i = 0; $i < $month->getWeeks(); $i++): ?>
+    <table class="calendar__table calendar__table--<?=  $weeks;?>">
+        <?php for ($i = 0; $i < $weeks; $i++): ?>
         <tr>
             <?php foreach($month->days as $k => $day): 
                  $date = (clone $start)->modify("+" . ($k + $i * 7) . "days");
