@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link rel="stylesheet" href="css/calendar.css">
-<body>
-    <nav class="navbar navbar-dark bg-primary mb-3">
-        <a href="/index.php" class="navbar-brand">Mon calendrier</a>
-    </nav>
+
     <?php
+    require '../src/bootstrap.php';
+    require '../views/header.php';
     require '../src/date/month.php';
     require '../src/date/Events.php';
-    $events = new App\date\Events();
+    $pdo = get_pdo();
+    $events = new App\date\Events($pdo);
     try {
     $month = new App\date\Month($_GET['month'] ?? null, $_GET['year'] ?? null); 
     $start = $month->getFirstDay();
@@ -25,7 +16,10 @@
     $weeks= $month->getWeeks();
     $end = (clone $start)->modify('+' . (6+7*($weeks-1)) . 'days');
 
-    $events = $events->getEventsBetween($start,$end);
+    $events = $events->getEventsBetweenDates($start,$end);
+    /*echo '<pre>';
+    var_dump($events);
+    echo '</pre>';*/
     ?>
     <div class="d-flex flex-row align-items-center justify-content-between mx-sm-3">
     <h1><?php echo $month->toString();?></h1>
@@ -40,12 +34,18 @@
         <tr>
             <?php foreach($month->days as $k => $day): 
                  $date = (clone $start)->modify("+" . ($k + $i * 7) . "days");
+                 $eventsForDay = $events[$date->format("Y-m-d")] ?? [];
                 ?>
             <td class="<? $month->withinMonth($date) ? '' :''; ?>">
                 <?php if ($i === 0):?>
                 <div class="calendar__weekday"><?= $day; ?></div>
                 <?php endif; ?>
                 <div class="calendar__day"><?= $date->format('d'); ?></div>
+                <?php foreach($eventsForDay as $event):?>
+                    <div class="calendar__event">
+                        <?= (new DateTime($event['start']))->format('H:i') ?> - <a href="./event.php?id=<?= $event['id'];?>"><?= h($event['name']); ?></a>
+                    </div>
+                <?php endforeach;?>    
             </td>
             <?php endforeach; ?>
         </tr>
@@ -53,7 +53,8 @@
 
 
     </table>
+    <?php
+    require '../views/footer.php';
+    ?>
 
     
-</body>
-</html>
